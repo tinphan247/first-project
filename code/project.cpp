@@ -99,6 +99,7 @@ SinhVien* CreateSV(string MSSV, string ten, string ho, string gender,string birt
 	SinhVien* newSV = new SinhVien;
 	cout<<"Nhap MSSV: ";
 	cin>>MSSV;
+	cin.ignore();
 	cout<<"Nhap ten: ";
 	getline(cin,ten);
 	cout<<"Nhap ho: ";
@@ -131,11 +132,11 @@ void AddSinhVien(ListSV& List,SinhVien* newSV){
 		List.ptail = newSV;
 	}else{
 		List.ptail->next = newSV;
-		List.phead = newSV;
+		List.ptail = newSV;
 	}
 	List.size++;
 }
-void OutputStudentList(ListSV List) {
+void OutputListStudents(ListSV List) {
     if (List.phead == NULL) {
         cout << "Danh sach trong." << endl;
         return;
@@ -169,41 +170,41 @@ void OutputStudentList(ListSV List) {
     // Tạo đường kẻ ngang cuối cùng
     cout << setfill('-') << setw(95) << "-" << endl;
 }
-void taosv(string& MSSV, string &ten, string &ho, string& gender, int& ngay, int& thang, int& nam, string &cccd)
-{
-	cin.ignore();
-	cout << "Nhap vao ho cua sinh vien:";
-	getline(cin, ho);
+// void taosv(string& MSSV, string &ten, string &ho, string& gender, int& ngay, int& thang, int& nam, string &cccd)
+// {
+// 	cin.ignore();
+// 	cout << "Nhap vao ho cua sinh vien:";
+// 	getline(cin, ho);
 	
-	cout << "Nhap vao ten cua sinh vien:";
-	getline(cin, ten);
+// 	cout << "Nhap vao ten cua sinh vien:";
+// 	getline(cin, ten);
 	
-	cout << "Nhap vao mssv:";
-	getline(cin, MSSV);
+// 	cout << "Nhap vao mssv:";
+// 	getline(cin, MSSV);
 	
-	do
-	{
-		cout << "Nhap vao gioi tinh sinh vien (Male/Female):";
-		getline(cin, gender);
-	} while (gender!= "Male" && gender!= "Female");
-	do
-	{
-		cout << "Nhap vao ngay thang nam sinh cua sinh vien:" << endl;
-		cout << "Nhap vao ngay:";
-		cin >> ngay;
-		cout << "Nhap vao thang:";
-		cin >> thang;
-		cout << "Nhap vao nam:";
-		cin >> nam;
-		if (kiemtrangaysinh(ngay, thang, nam) == false)
-		{
-			cout << "Ngay sinh khong hop le,vui long nhap lai" << endl;
-		}
-	} while (kiemtrangaysinh(ngay, thang, nam) == false);
-	cout << "Nhap vao so cccd cua sinh vien:";
-	cin.ignore();
-	getline(cin, cccd);
-}
+// 	do
+// 	{
+// 		cout << "Nhap vao gioi tinh sinh vien (Male/Female):";
+// 		getline(cin, gender);
+// 	} while (gender!= "Male" && gender!= "Female");
+// 	do
+// 	{
+// 		cout << "Nhap vao ngay thang nam sinh cua sinh vien:" << endl;
+// 		cout << "Nhap vao ngay:";
+// 		cin >> ngay;
+// 		cout << "Nhap vao thang:";
+// 		cin >> thang;
+// 		cout << "Nhap vao nam:";
+// 		cin >> nam;
+// 		if (kiemtrangaysinh(ngay, thang, nam) == false)
+// 		{
+// 			cout << "Ngay sinh khong hop le,vui long nhap lai" << endl;
+// 		}
+// 	} while (kiemtrangaysinh(ngay, thang, nam) == false);
+// 	cout << "Nhap vao so cccd cua sinh vien:";
+// 	cin.ignore();
+// 	getline(cin, cccd);
+// }
 void themsvvaolop(Class*& lop, string& MSSV, string& ten, string& ho, string& gender, int& ngay, int& thang, int &nam, string& cccd) {
 	if (lop->ds == NULL) 
 	{
@@ -471,6 +472,7 @@ Course* InputCourse(string id,string CourseName,string ClassName,string GVName,i
     newCourse->next = NULL;
     return newCourse;
 }
+
 void AddCourse(ListCourses& List,Course* newCourse){
 	if (newCourse == NULL) return;
     if (List.head == NULL) {
@@ -481,6 +483,39 @@ void AddCourse(ListCourses& List,Course* newCourse){
         List.tail = newCourse;
     }
     List.size++;
+}
+void RemoveCourse(ListCourses& List,Course* course){
+	if(List.head == NULL){
+		return;
+	}
+	else if(List.head == course){
+		List.head = course->next;
+		if(List.tail == course){
+			List.tail = NULL;
+		}
+	}else{
+		// duyet list tim course
+		Course* cur = List.head;
+		while(cur!= NULL && cur->next != course){
+			cur = cur->next;
+		}
+		//luc nay cur->next = course hoac cur == NULL
+		if(cur->next == course){
+			cur->next = course->next;
+			if(List.tail == course){
+				List.tail = cur;
+			}
+		}else{ // luc nay cur = NULL -> ko tim thay course
+			return;
+		}
+	}
+}
+Course* Find_ID(ListCourses List, string id){
+	Course* cur = List.head;
+	while(cur != NULL &&  cur->id != id){
+		cur = cur ->next;
+	}
+	return cur;
 }
 void OutputListCourses(ListCourses List) {
     if (List.head == NULL) {

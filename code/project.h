@@ -42,6 +42,7 @@ struct SinhVien
 	string cccd;
 	SinhVien* next;
 	ListCourses* Lc;
+	string ClassName;
 };
 struct ListSV
 {
@@ -90,13 +91,20 @@ void taohocky(Semester*& H, ListNamHoc& L);
 void themlopmoivaodanhsachcaclop(Class*& CTT,ListClass*& DS);
 void xemdanhsachcaclop(ListClass*& DS);
 void xemdanhsachkhoahoc(ListCourses*& LC);
-void xoasvkhoikhoahoc(ListCourses*& LC);
+void xoasvkhoikhoahoc(ListCourses*& LC);	
 //void xembangdiemcua1khoahoc(Student*& st, Course*& c, ListStudent*& lst);
 //void xemdanhsachhocvientrongkhoa(Course*& c);
+//tin
+SinhVien* CreateSV(string MSSV, string ten, string ho, string gender,string birth, string cccd);
+void InitList(ListSV &List);
+void AddSinhVien(ListSV& List,SinhVien* newSV);
+void OutputListStudents(ListSV List);
 //7
 void InitList(ListCourses &list);
 Course* InputCourse(string id,string CourseName,string ClassName,string GVName,int AcademicYear,int Credits,string wDay,string Session);
 void AddCourse(ListCourses& List,Course* newCourse);
+void RemoveCourse(ListCourses& List,Course* course);
+Course* Find_ID(ListCourses List, string id);
 void OutputListCourses(ListCourses List);
 
 #endif
